@@ -1,0 +1,137 @@
+#base "base/bm_sp_campaign.edt"
+
+"config"
+{
+	"chapter" "\"We Got Hostiles!\""
+	"nextmap" "bm_c1a3c"
+	"equipment"
+	{
+		"lookup"
+		{
+			"targetname" "/^(suit|weapons|ammo)$/"
+		}
+	}
+	"entity"
+	{
+		// delay map start
+		"modify"
+		{
+			"classname" "logic_auto"
+			"OnMapSpawn" "/^Scene01_DontShootStart/"
+			"functions"
+			{
+				"delay_output" "OnMapSpawn"
+			}
+		}
+		// conveyor sounds
+		"modify"
+		{
+			"targetname" "/^snds_conveyors/"
+			"classname" "ambient_generic"
+			"flags"
+			{
+				"spawnflags"
+				{
+					"remove" "16" // start silent
+				}
+			}
+			"set"
+			{
+				"targetname" ""
+			}
+		}
+		// prepare changelevel for touch trigger
+		"modify"
+		{
+			"targetname" "c1a3b-c1a3c-elevator"
+			"add"
+			{
+				"lip" "-580"
+			}
+			"outputs"
+			{
+				"add"
+				{
+					"output" "OnOpen"
+					"target" "trigger_changelevel"
+					"input" "Enable"
+					"delay" "3"
+				}
+				"remove"
+				{
+					"output" "OnFullyOpen"
+					"target" "/^(c1a3b-c1a3c-elevator_doorleft|c1a3b-c1a3c-elevator_doorright)$/"
+				}
+			}
+		}
+		"modify"
+		{
+			"classname" "trigger_changelevel"
+			"map" "bm_c1a3c"
+			"add"
+			{
+				"StartDisabled" "1"
+			}
+			"functions"
+			{
+				"copy_model"
+				{
+					"classname" "trigger_transition"
+					"targetname" "bm_c1a3b-bm_c1a3c"
+				}
+			}
+		}
+		"modify"
+		{
+			"targetname" "top_button"
+			"outputs"
+			{
+				"add"
+				{
+					"output" "OnPressed"
+					"target" "!self"
+					"input" "lock"
+				}
+			}
+		}
+	}
+	"checkpoint"
+	{
+		"spawn"
+		{
+			"origin"	"1862 995 -119"
+			"angles"	"0 270 0"
+		}
+		"bridge"
+		{
+			"origin"	"425 -5 -84"
+			"angles"	"0 180 0"
+			"triggerid" "2639037"
+			"output"	"OnTrigger"
+		}
+		"warehouse"
+		{
+			"origin"	"-1088 -1856 -91"
+			"angles"	"0 0 0"
+			"triggerid" "sscape_hallway03"
+			"output"	"OnPlay"
+		}
+		"bridge2"
+		{
+			"origin"	"0 -448 172"
+			"angles"	"0 90 0"
+			"triggerid" "sscape_b_centralshaft02"
+			"output"	"OnPlay"
+		}
+		"endelevator"
+		{
+			"origin"	"120 0 0"
+			"angles"	"0 0 0"
+			"followid"	"top_button"
+			"triggerid" "c1a3b-c1a3c-elevator"
+			"output"	"OnOpen"
+			"portal"	"424 1138 101"
+			"delay"		"2"
+		}
+	}
+}

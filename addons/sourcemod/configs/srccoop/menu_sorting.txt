@@ -1,0 +1,27 @@
+"Menu"
+{
+	"PlayerSettings"
+	{
+		"item"		"ToggleThirdperson"
+		"item"		"ToggleDeathCamera"
+	}
+
+	"SoundSettings"
+	{
+		"item"		"ToggleKillsounds"
+	}
+
+	"Voting"
+	{
+		"item"		"SurvivalVote"
+		"item"		"MapVote"
+		"item"		"RestartMapVote"
+		"item"		"SkipIntroVote"
+	}
+
+	"Other"
+	{
+		"item"		"ToggleKillfeed"
+	}
+	
+}

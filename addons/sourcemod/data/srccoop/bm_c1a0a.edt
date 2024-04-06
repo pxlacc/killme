@@ -1,0 +1,124 @@
+#base "base/bm_sp_campaign.edt"
+
+"config"
+{
+	"chapter" "Anomalous Materials"
+	"nextmap"		"bm_c1a0b"
+	"intro_type"	"none"
+	"equipment"
+	{
+		"item" "item_weapon_crowbar"
+	}
+	"entity"
+	{
+		// make all npcs invulnerable
+		"modify"
+		{
+			"classname" "/^npc_/"
+			"add"
+			{
+				"damagefilter" "__srccoop_damage_filter"
+			}
+		}
+		// delay map start
+		"modify"
+		{
+			"targetname" "trigger_intro_scene"
+			"functions"
+			{
+				"delay_output" "OnTrigger"
+			}
+		}
+		// suit pickup - fire outputs only once
+		"modify"
+		{
+			"classname" "item_suit"
+			"targetname" "HEV"
+			"outputs"
+			{
+				"modify"
+				{
+					"output" "OnPlayerPickup"
+					"replace"
+					{
+						"timestofire" "1"
+					}
+				}
+			}
+		}
+		// remove end lift blocker brush
+		"delete"
+		{
+			"targetname"	"lift_block"
+		}
+		// prepare changelevel touch trigger
+		"modify"
+		{
+			"targetname" "bm_c1a0a_bm_c1a0b"
+			"classname" "trigger_changelevel"
+			"add"
+			{
+				"StartDisabled" "1"
+				"spawnflags" "0"
+			}
+			"functions"
+			{
+				"copy_model"
+				{
+					"classname" "trigger_transition"
+					"targetname" "bm_c1a0a_bm_c1a0b_lm"
+				}
+			}
+		}
+		"modify"
+		{
+			"outputs"
+			{
+				"modify"
+				{
+					"target" "bm_c1a0a_bm_c1a0b"
+					"input" "ChangeLevel"
+					"replace"
+					{
+						"input" "Enable"
+					}
+				}
+			}
+		}
+	}
+	"checkpoint"
+	{
+		"spawn"
+		{
+			"origin"	"0 0 24"
+			"angles"	"0 90 0"
+			"followid"	"train_model"
+		}
+		"door1"
+		{
+			"origin"	"272 28 520"
+			"angles"	"0.0 90.0 0.0"
+			"delay"		"1.5"
+			"triggerid"	"LCS_AM_Airlock_trigger"
+			"output"	"OnTrigger"
+			"portal"	"280 -208 549"
+		}
+		"door2"
+		{
+			"origin"	"272 416 520"
+			"angles"	"0.0 90.0 0.0"
+			"delay"		"0"
+			"triggerid"	"door_02_btm"
+			"output"	"OnFullyClosed"
+			"portal"	"272 272 549"
+		}
+		"elevatorroom"
+		{
+			"origin"	"-1329 2497 297"
+			"angles"	"0 270 0"
+			"triggerid"	"lab1_door1a"
+			"output"	"OnFullyClosed"
+			"portal"	"-1328 2908 357"
+		}
+	}
+}
